@@ -102,7 +102,7 @@ password_authenticator: |-
 
 resource_groups_properties: |-
   resource-groups.configuration-manager=file
-  resource-groups.config-file=/usr/lib/presto/etc/resource_groups.json
+  resource-groups.config-file=$PRESTO_HOME/etc/resource_groups.json
 
 resource_groups_json: |-
   {
