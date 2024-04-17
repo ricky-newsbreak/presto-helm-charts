@@ -32,4 +32,6 @@ data:
   jmx_exporter.yaml: |-
     {{- toYaml .Values.metrics.config | nindent 4 }}
   {{- end }}
+  ranger-hive-audit.xml: |-
+    {{- .Values.ranger_hive_audit_xml | nindent 4 }}
 {{- end }}

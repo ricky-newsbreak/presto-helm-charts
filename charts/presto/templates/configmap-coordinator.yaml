@@ -26,11 +26,13 @@ data:
     discovery-server.enabled={{ or (eq .Values.mode "single") (eq .Values.mode "cluster") }}
     node-scheduler.include-coordinator={{ eq .Values.mode "single" }}
     resource-manager-enabled={{ eq .Values.mode "ha-cluster" }}
-    #http-server.authentication.type=PASSWORD
-    #http-server.https.enabled=true
-    #http-server.https.port=8447
-    #http-server.https.keystore.path=/home/hadoop/wenkang/my_htpasswd/presto_keystore.jks
-    #http-server.https.keystore.key=123456
+    {{- if .Values.custom_auth.enabled }}
+    http-server.authentication.type={{ .Values.custom_auth.auth_type }}  #PASSWORD
+    http-server.https.enabled={{ .Values.custom_auth.https_enabled }}  #true
+    http-server.https.port={{ .Values.custom_auth.https_port }} #8447
+    http-server.https.keystore.path={{ .Values.custom_auth.keystore_path }}  #/home/hadoop/wenkang/my_htpasswd/presto_keystore.jks
+    #http-server.https.keystore.key={{ .Values.custom_auth.keystore_key }}  #123456
+    {{- end }}
     {{- .Values.config | nindent 4 }}
   log.properties: |-
     {{- .Values.log | nindent 4 }}
@@ -46,3 +48,5 @@ data:
     {{- .Values.resource_groups_properties | nindent 4 }}
   resource-groups.json: |-
     {{- .Values.resource_groups_json | nindent 4 }}
+  ranger-hive-audit.xml: |-
+    {{- .Values.ranger_hive_audit_xml | nindent 4 }}

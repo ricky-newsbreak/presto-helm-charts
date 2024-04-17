@@ -180,6 +180,39 @@ resource_groups_json: |-
         "cpuQuotaPeriod": "1h"
       }
 
+ranger_hive_audit_xml:
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  --><?xml-stylesheet type="text/xsl" href="configuration.xsl"?><configuration xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <property>
+  <name>xasecure.audit.is.enabled</name>
+  <value>true</value>
+  </property>
+  <property>
+  <name>xasecure.audit.destination.solr</name>
+  <value>true</value>
+  </property>
+  <property>
+  <name>xasecure.audit.destination.solr.urls</name>
+  <value>http://data.ranger.solr.nb.com:6083/solr/ranger_audits</value>
+  </property>
+  </configuration>
+
   # Resource Manager configuration
 resourceManager:
   # Number of resource managers in "ha-cluster" mode
@@ -347,7 +380,7 @@ catalog: {}
 
 # Metrics endpoint to export JMX metrics in Prometheus format
 metrics:
-  enabled: false
+  enabled: true
   port: 9090
   # Path to JMX exporter JAR file
   javaagent: /usr/lib/presto/utils/jmx_prometheus_javaagent-0.20.0.jar
@@ -355,3 +388,11 @@ metrics:
   config:
     rules:
       - pattern: ".*"
+
+custom_auth:
+  enabled: false
+  auth_type: PASSWORD
+  https_enabled: true
+  https_port: 8447
+  keystore_path: /home/hadoop/wenkang/my_htpasswd/presto_keystore.jks
+  keystore_key: 123456
