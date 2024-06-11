@@ -9,17 +9,17 @@ coordinator:
       memory: "8Gi"
       cpu: "2000m"
     limits:
-      memory: "16Gi"
+      memory: "8Gi"
       cpu: "4000m"
 worker:
-  replicas: 3
+  replicas: 1
   resources:
     requests:
       memory: "8Gi"
-      cpu: "2000m"
-    limits:
-      memory: "16Gi"
       cpu: "4000m"
+    limits:
+      memory: "8Gi"
+      cpu: "8000m"
 ingress:
   enabled: true
   host: presto.stage-data.nb-stage.com
@@ -49,8 +49,8 @@ catalog:
     connector.name=hudi
     hive.metastore.uri=thrift://data.emr.nb.com:9083
 config: |-
-  query.max-memory=10GB
-  query.max-memory-per-node=1400MB
+  query.max-memory=50GB
+  query.max-memory-per-node=2500MB
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::047545107514:role/presto-stage-data

@@ -75,6 +75,7 @@ jvm: |-
   -server
   -XX:+ExitOnOutOfMemoryError
   -Djdk.attach.allowAttachSelf=true
+  -Xmx7516192768
 
 # Common configuration properties, see https://prestodb.io/docs/current/installation/deployment.html#config-properties
 config: |-
@@ -320,7 +321,25 @@ coordinator:
 # Worker configuration
 worker:
   # Number of workers in "cluster" and "ha-cluster" modes
-  replicas: 2
+  replicas: 10
+  hpa:
+    enabled: false
+    minReplicas: 10
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+    behavior:
+      scaleDown:
+        stabilizationWindowSeconds: 300
+        policies:
+          - type: Percent
+            value: 20
+            periodSeconds: 60
+      scaleUp:
+        stabilizationWindowSeconds: 0
+        policies:
+          - type: Percent
+            value: 100
+            periodSeconds: 60
   # Worker JVM options (overwrites common JVM options)
   jvm: ""
   # Command to launch worker (templated)
